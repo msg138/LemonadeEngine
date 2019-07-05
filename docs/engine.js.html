@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @file Lemonade Engine
  * @version 11.18.2017
  * @updated 5.25.2019
@@ -603,21 +631,21 @@ Lemonade.Timer = {
 Lemonade.MD5 = function(string) {
 
 	function RotateLeft(lValue, iShiftBits) {
-		return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
+		return (lValue &lt;&lt; iShiftBits) | (lValue >>> (32 - iShiftBits));
 	}
 
 	function AddUnsigned(lX, lY) {
 		var lX4, lY4, lX8, lY8, lResult;
-		lX8 = (lX & 0x80000000);
-		lY8 = (lY & 0x80000000);
-		lX4 = (lX & 0x40000000);
-		lY4 = (lY & 0x40000000);
-		lResult = (lX & 0x3FFFFFFF) + (lY & 0x3FFFFFFF);
-		if (lX4 & lY4) {
+		lX8 = (lX &amp; 0x80000000);
+		lY8 = (lY &amp; 0x80000000);
+		lX4 = (lX &amp; 0x40000000);
+		lY4 = (lY &amp; 0x40000000);
+		lResult = (lX &amp; 0x3FFFFFFF) + (lY &amp; 0x3FFFFFFF);
+		if (lX4 &amp; lY4) {
 			return (lResult ^ 0x80000000 ^ lX8 ^ lY8);
 		}
 		if (lX4 | lY4) {
-			if (lResult & 0x40000000) {
+			if (lResult &amp; 0x40000000) {
 				return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
 			}
 			else {
@@ -629,9 +657,9 @@ Lemonade.MD5 = function(string) {
 		}
 	}
 
-	function F(x, y, z) { return (x & y) | ((~x) & z); }
+	function F(x, y, z) { return (x &amp; y) | ((~x) &amp; z); }
 
-	function G(x, y, z) { return (x & z) | (y & (~z)); }
+	function G(x, y, z) { return (x &amp; z) | (y &amp; (~z)); }
 
 	function H(x, y, z) { return (x ^ y ^ z); }
 
@@ -666,16 +694,16 @@ Lemonade.MD5 = function(string) {
 		var lWordArray = Array(lNumberOfWords - 1);
 		var lBytePosition = 0;
 		var lByteCount = 0;
-		while (lByteCount < lMessageLength) {
+		while (lByteCount &lt; lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 			lBytePosition = (lByteCount % 4) * 8;
-			lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition));
+			lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount) &lt;&lt; lBytePosition));
 			lByteCount++;
 		}
 		lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 		lBytePosition = (lByteCount % 4) * 8;
-		lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
-		lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
+		lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 &lt;&lt; lBytePosition);
+		lWordArray[lNumberOfWords - 2] = lMessageLength &lt;&lt; 3;
 		lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
 		return lWordArray;
 	};
@@ -684,8 +712,8 @@ Lemonade.MD5 = function(string) {
 		var WordToHexValue = "",
 			WordToHexValue_temp = "",
 			lByte, lCount;
-		for (lCount = 0; lCount <= 3; lCount++) {
-			lByte = (lValue >>> (lCount * 8)) & 255;
+		for (lCount = 0; lCount &lt;= 3; lCount++) {
+			lByte = (lValue >>> (lCount * 8)) &amp; 255;
 			WordToHexValue_temp = "0" + lByte.toString(16);
 			WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
 		}
@@ -696,21 +724,21 @@ Lemonade.MD5 = function(string) {
 		string = string.replace(/\r\n/g, "\n");
 		var utftext = "";
 
-		for (var n = 0; n < string.length; n++) {
+		for (var n = 0; n &lt; string.length; n++) {
 
 			var c = string.charCodeAt(n);
 
-			if (c < 128) {
+			if (c &lt; 128) {
 				utftext += String.fromCharCode(c);
 			}
-			else if ((c > 127) && (c < 2048)) {
+			else if ((c > 127) &amp;&amp; (c &lt; 2048)) {
 				utftext += String.fromCharCode((c >> 6) | 192);
-				utftext += String.fromCharCode((c & 63) | 128);
+				utftext += String.fromCharCode((c &amp; 63) | 128);
 			}
 			else {
 				utftext += String.fromCharCode((c >> 12) | 224);
-				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-				utftext += String.fromCharCode((c & 63) | 128);
+				utftext += String.fromCharCode(((c >> 6) &amp; 63) | 128);
+				utftext += String.fromCharCode((c &amp; 63) | 128);
 			}
 
 		}
@@ -746,7 +774,7 @@ Lemonade.MD5 = function(string) {
 	c = 0x98BADCFE;
 	d = 0x10325476;
 
-	for (k = 0; k < x.length; k += 16) {
+	for (k = 0; k &lt; x.length; k += 16) {
 		AA = a;
 		BB = b;
 		CC = c;
@@ -827,7 +855,7 @@ Lemonade.MD5 = function(string) {
 };
 
 /**
- * @desc Homebrew method of adding includes in HTML. Does this by adding separate <script> elements referencing script name.
+ * @desc Homebrew method of adding includes in HTML. Does this by adding separate &lt;script> elements referencing script name.
  * @param {string} filename - File name that is to be included. Relative to the site.
  * @param {string} name - This is the name to set as the id of the script, to prevent multiple includes of same script.
  */
@@ -873,7 +901,7 @@ Lemonade.rgbToHex = function(r, g, b) {
  * @returns {boolean} If the element was found in the array
  */
 Lemonade.arrayContains = function(a, obj) {
-	for (var i = 0; i < a.length; i++) {
+	for (var i = 0; i &lt; a.length; i++) {
 		if (a[i] === obj) {
 			return true;
 		}
@@ -887,7 +915,7 @@ Lemonade.arrayContains = function(a, obj) {
  * @returns {number} Index of the element, or -1 if not found.
  */
 Lemonade.arrayIndex = function(a, obj) {
-	for (var i = 0; i < a.length; i++) {
+	for (var i = 0; i &lt; a.length; i++) {
 		if (a[i] === obj) {
 			return i;
 		}
@@ -908,7 +936,7 @@ Lemonade.clone = function(src) {
 		var name, s, i, empty = {};
 		for (name in source) {
 			s = source[name];
-			if (!(name in dest) || (dest[name] !== s && (!(name in empty) || empty[name] !== s))) {
+			if (!(name in dest) || (dest[name] !== s &amp;&amp; (!(name in empty) || empty[name] !== s))) {
 				dest[name] = copyFunc ? copyFunc(s) : s;
 			}
 		}
@@ -918,7 +946,7 @@ Lemonade.clone = function(src) {
 	if (!src || typeof src != "object" || Object.prototype.toString.call(src) === "[object Function]") {
 		return src;
 	}
-	if (src.nodeType && "cloneNode" in src) {
+	if (src.nodeType &amp;&amp; "cloneNode" in src) {
 		return src.cloneNode(true);
 	}
 	if (src instanceof Date) {
@@ -930,7 +958,7 @@ Lemonade.clone = function(src) {
 	var r, i, l;
 	if (src instanceof Array) {
 		r = [];
-		for (i = 0, l = src.length; i < l; ++i) {
+		for (i = 0, l = src.length; i &lt; l; ++i) {
 			if (i in src) {
 				r.push(Lemonade.clone(src[i]));
 			}
@@ -1291,9 +1319,7 @@ Lemonade.Graphics = {
 
 			}
 		},
-		/**
-		 * @desc Initialize OpenGL with the engine / webgl.
-		 */
+
 		initializeGL: function() {
 			try {
 				gl = Lemonade.Canvas.canvasObject.getContext("webgl") || Lemonade.Canvas.canvasObject.getContext("experimental-webgl");
@@ -1312,16 +1338,10 @@ Lemonade.Graphics = {
 			this.enabled = true;
 		},
 	},
-	/**
-	 * @desc Change the graphics type to the one specified.
-	 * @param {string} newType - The new graphics type that is to be used with the engine. (At this time, only supports 1)
-	 */
+
 	changeGraphicsType: function(newType) {
 		this.graphicsType = newType;
 	},
-	/**
-	 * @desc Prepare the engine for use in a 3d context.
-	 */
 	prepThreeD: function() {
 		this.graphicsType = GRAPHICS_WEBGL;
 		// Here we will setup the canvas to use webgl on graphic calls.
@@ -1333,190 +1353,83 @@ Lemonade.Graphics = {
 	},
 };
 
-/**
- * @desc Methods relating to the game view camera. At this time 1 camera supported. Potentially could freeze and restore though.
- */
 Lemonade.Camera = {
-	/**
-	 * @desc X coordinate of the camera.
-	 */
 	x: 0,
-	/**
-	 * @desc Y coordinate of the camera.
-	 */
 	y: 0,
-	/**
-	 * @desc Z coordinate of the camera. Primarily for 3d Use.
-	 */
 	z: 0, // Not used yet.
-	/**
-	 * @desc Scale X of the camera view.
-	 */
 	sx: 1,
-	/**
-	 * @desc Scale Y of the camera View.
-	 */
 	sy: 1,
-	/**
-	 * @desc Scale Z of the camera view.
-	 */
 	sz: 1,
-	/**
-	 * @desc Get X of the camera.
-	 * @returns X coordinate of the camera.
-	 */
+
 	getX: function() {
 		return this.x;
 	},
-	/**
-	 * @desc Get Y of the camera.
-	 * @returns Y coordinate of the camera.
-	 */
 	getY: function() {
 		return this.y;
 	},
-	/**
-	 * @desc Get Z of the camera.
-	 * @returns Z coordinate of the camera.
-	 */
 	getZ: function() {
 		return this.z;
 	},
-	/**
-	 * @desc Get X Scale of the camera.
-	 * @returns X Scale of the camera.
-	 */
 	getScaleX: function() {
 		return this.sx;
 	},
-	/**
-	 * @desc Get Y Scale of the camera.
-	 * @returns Y Scale of the camera.
-	 */
 	getScaleY: function() {
 		return this.sy;
 	},
-	/**
-	 * @desc Get Z Scale of the camera.
-	 * @returns Z Scale of the camera.
-	 */
 	getScaleZ: function() {
 		return this.sz;
 	},
-	/**
-	 * @desc Move the camera X position by dx.
-	 * @param {number} dx - Amount to move the X coordinate by.
-	 * @returns Current X coordinate of the position.
-	 */
+
 	moveX: function(dx) {
 		this.x += dx;
 		return this.x;
 	},
-	/**
-	 * @desc Move the camera Y position by dy.
-	 * @param {number} dy - Amount to move the Y coordinate by.
-	 * @returns Current Y coordinate of the position.
-	 */
 	moveY: function(dy) {
 		this.y += dy;
 		return this.y;
 	},
-	/**
-	 * @desc Move the camera Z position by dz.
-	 * @param {number} dz - Amount to move the Z coordinate by.
-	 * @returns Current Z coordinate of the position.
-	 */
 	moveZ: function(dz) {
 		this.z += dz;
 		return this.z;
 	},
-	/**
-	 * @desc Move the camera X Scale by dsx.
-	 * @param {number} dsx - Amount to move the X Scale by.
-	 * @returns Current X Scale of the camera.
-	 */
 	moveScaleX: function(dsx) {
 		this.sx += dsx;
 		return this.sx;
 	},
-	/**
-	 * @desc Move the camera Y Scale by dsx.
-	 * @param {number} dsy - Amount to move the Y Scale by.
-	 * @returns Current Y Scale of the camera.
-	 */
 	moveScaleY: function(dsy) {
 		this.sy += dsy;
 		return this.sy;
 	},
-	/**
-	 * @desc Move the camera Z Scale by dsx.
-	 * @param {number} dsz - Amount to move the Z Scale by.
-	 * @returns Current Z Scale of the camera.
-	 */
 	moveScaleZ: function(dsz) {
 		this.sz += dsz;
 		return this.sz;
 	},
-	/**
-	 * @desc Set the current X coordinate of the camera.
-	 * @param {number} nx - New X coordinate.
-	 * @returns Current X coordinate after change.
-	 */
+
 	setX: function(nx) {
 		this.x = nx;
 		return this.x;
 	},
-	/**
-	 * @desc Set the current Y coordinate of the camera.
-	 * @param {number} ny - New Y coordinate.
-	 * @returns Current Y coordinate after change.
-	 */
 	setY: function(ny) {
 		this.y = ny;
 		return this.y;
 	},
-	/**
-	 * @desc Set the current Z coordinate of the camera.
-	 * @param {number} nz - New Z coordinate.
-	 * @returns Current Z coordinate after change.
-	 */
 	setZ: function(nz) {
 		this.z = nz;
 		return this.z;
 	},
-	/**
-	 * @desc Set the current X scale of the camera view.
-	 * @param {number} nsx - New Scale X
-	 * @returns Current X Scale after change.
-	 */
 	setScaleX: function(nsx) {
 		this.sx = nsx;
 		return this.sx;
 	},
-	/**
-	 * @desc Set the current Y scale of the camera view.
-	 * @param {number} nsy - New Scale Y
-	 * @returns Current Y Scale after change.
-	 */
 	setScaleY: function(nsy) {
 		this.sy = nsy;
 		return this.sy;
 	},
-	/**
-	 * @desc Set the current Z scale of the camera view.
-	 * @param {number} nsz - New Scale Z
-	 * @returns Current Z Scale after change.
-	 */
 	setScaleZ: function(nsz) {
 		this.sz = nsz;
 		return this.sz;
 	},
-	/**
-	 * @desc Move the Camera position by specified values.
-	 * @param {number} dx - Amount to move X position.
-	 * @param {number} dy - Amount to move Y position.
-	 * @param {number} dz - Amount to move Z position.
-	 */
+
 	move: function(dx, dy, dz) {
 		dx = dx || 0;
 		dy = dy || 0;
@@ -1526,13 +1439,6 @@ Lemonade.Camera = {
 		this.moveZ(dz);
 		return true;
 	},
-	/**
-	 * @desc Change the Camera Scale by specified values (all 3)
-	 * @param {number} dsx - Amount to move the X scale by.
-	 * @param {number} dsy - Amount to move the Y scale by.
-	 * @param {number} dsz - Amount to move the Z scale by.
-	 * @returns If it was successful.
-	 */
 	moveScale: function(dsx, dsy, dsz) {
 		dsx = dsx || 0;
 		dsy = dsy || 0;
@@ -1543,59 +1449,21 @@ Lemonade.Camera = {
 		return true;
 	}
 };
-/**
- * @desc Canvas related functions and variables.
- */
+
 Lemonade.Canvas = {
-	/**
-	 * @desc Width of the canvas. Set by the initialize function.
-	 */
 	canvasWidth: 0,
-	/**
-	 * @desc Height of the canvas. Set by the initialize function.
-	 */
 	canvasHeight: 0,
-	/**
-	 * @desc DOM Object for the canvas element for the engine to use.
-	 */
+
 	canvasObject: undefined,
-	/**
-	 * @desc Context (2d or 3d) for the canvas element.
-	 */
 	context: undefined,
-	/**
-	 * @desc X ratio for the Canvas to Real Width
-	 */
 	xRatio: 1,
-	/**
-	 * @desc Y ratio for the Canvas to Real Height
-	 */
 	yRatio: 1,
-	/**
-	 * @desc Whether the canvas should auto clear after each draw.
-	 */
+
 	autoClear: true,
-	/**
-	 * @desc FPS cap.
-	 */
 	FPS: 30,
-	/**
-	 * @desc Initialize the engine with a 2d Context.
-	 * @param {number} w - Width of the game view.
-	 * @param {number} h - Height of the game view.
-	 * @param {string} divName - The Id of the Div to use as canvas.
-	 * @param {boolean} autoScale - Whether the canvas should auto scale ornaw.
-	 */
 	initialize2D: function(w, h, divName, autoScale) {
 		this.initialize(w, h, divName, autoScale);
 	},
-	/**
-	 * @desc Initialize the engine with a 3d Context.
-	 * @param {number} w - Width of the game view.
-	 * @param {number} h - Height of the game view.
-	 * @param {string} divName - The Id of the Div to use as canvas.
-	 * @param {boolean} autoScale - Whether the canvas should auto scale ornaw.
-	 */
 	initialize3D: function(w, h, divName, autoScale) {
 		this.canvasWidth = w || 0;
 		this.canvasHeight = h || 0;
@@ -1621,13 +1489,7 @@ Lemonade.Canvas = {
 
 		return this;
 	},
-	/**
-	 * @desc Default initializer for 2d Context.
-	 * @param {number} w - Width of the game view.
-	 * @param {number} h - Height of the game view.
-	 * @param {string} divName - The Id of the Div to use as canvas.
-	 * @param {boolean} autoScale - Whether the canvas should auto scale ornaw.
-	 */
+	// THe default initializer for 2d
 	initialize: function(w, h, divName, autoScale) {
 		this.canvasWidth = w || 0;
 		this.canvasHeight = h || 0;
@@ -1651,19 +1513,9 @@ Lemonade.Canvas = {
 		return this;
 	},
 };
-/**
- * @desc Container for Debug related functions / variables.
- */
+
 Lemonade.Debug = {
-	/**
-	 * @desc The current debug mode for the engine. Determines the types of messages that should be shown / logged.
-	 */
 	DebugMode: DEBUG_NONE,
-	/**
-	 * @desc Log a message to console / debug log with specified importance.
-	 * @param {string} output - Message to log
-	 * @param {number} importance - Level of importance for the message.
-	 */
 	log: function(output, importance) {
 		importance = importance || DEBUG_NOTICE;
 		if (this.debugMode == importance || this.debugMode == DEBUG_ALL || importance == DEBUG_NONE) {
@@ -1671,7 +1523,7 @@ Lemonade.Debug = {
 			if (debugElement !== null) {
 				if (debugElement.innerHTML.length > 2000)
 					debugElement.innerHTML = "";
-				debugElement.innerHTML += output + "<br>";
+				debugElement.innerHTML += output + "&lt;br>";
 			}
 			else {
 				var dl = document.createElement('div');
@@ -1686,27 +1538,13 @@ Lemonade.Debug = {
 		}
 		return this;
 	},
-	/**
-	 * @desc Set the current debug mode of the engine.
-	 * @param {number} newDebugMode - Debug mode to set. Will log any messages with specified importance.
-	 */
 	setDebugMode: function(newDebugMode) {
 		this.debugMode = newDebugMode;
 	},
 };
-/**
- * @desc Error related functions.
- */
+
 Lemonade.Error = {
-	/**
-	 * @desc Used to keep track if an error is triggered.
-	 */
 	errorTriggered: false,
-	/**
-	 * @desc Trigger an error with description and code. (Code signifies a general description)
-	 * @param {string} description - Description of what caused the error.
-	 * @param {number} code - Code for the error. Signifies a general description.
-	 */
 	trigger: function(description, code) {
 		Lemonade.Debug.log("ERROR " + code + " - " + description);
 		alert("Game Error!\nCode: " + code + "\nDescription:" + description);
@@ -1715,13 +1553,6 @@ Lemonade.Error = {
 	},
 };
 
-/**
- * @desc Constructor for the Image object.
- * @param {string} iKey - Key of the image (used to identify)
- * @param {string} iFile - File name / location of the image.
- * @param {number} w - Width of the source image.
- * @param {number} h - Height of the source image.
- */
 Lemonade.Image = function(iKey, iFile, w, h) {
 	this.iKey = iKey;
 	this.iFile = iFile;
@@ -1858,23 +1689,23 @@ Lemonade.Image = function(iKey, iFile, w, h) {
 		context.scale(scx, scy);
 
 
-		if (!this.isSpriteSheet && !this.animation)
+		if (!this.isSpriteSheet &amp;&amp; !this.animation)
 			context.drawImage(this.iImage, -this.originX, -this.originY, width, height);
 		else if (this.isSpriteSheet)
 			context.drawImage(this.iImage, spriteid * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, -this.originX, -this.originY, width, height);
 
-		if (this.animation && this.animationComplete === false) {
+		if (this.animation &amp;&amp; this.animationComplete === false) {
 			this.animationTickCount += 1;
 			if (this.animationTickCount >= this.animationTicks) {
 				this.animationTickCount = 0;
 				this.curSprite += 1;
-				if (this.curSprite >= this.animationMax && this.animationType != ANIMATION_TYPE_C && this.animationType != ANIMATION_TYPE_D)
+				if (this.curSprite >= this.animationMax &amp;&amp; this.animationType != ANIMATION_TYPE_C &amp;&amp; this.animationType != ANIMATION_TYPE_D)
 					this.curSprite = this.animationStart;
-				else if (this.curSprite > this.animationMax && this.animationType == ANIMATION_TYPE_C) {
+				else if (this.curSprite > this.animationMax &amp;&amp; this.animationType == ANIMATION_TYPE_C) {
 					this.curSprite = this.animationMax;
 					this.animationComplete = true;
 				}
-				else if (this.curSprite > this.animationMax && this.animationType == ANIMATION_TYPE_D) {
+				else if (this.curSprite > this.animationMax &amp;&amp; this.animationType == ANIMATION_TYPE_D) {
 					this.curSprite = this.animationStart - 1;
 					this.animationComplete = true;
 				}
@@ -1905,7 +1736,7 @@ Lemonade.Sound = function(iKey, iFile, loop, volume) {
 	Lemonade.loadSound(iKey);
 
 	this.play = function() {
-		if (this.iSound.currentTime !== 0 && this.iSound.paused === false) {
+		if (this.iSound.currentTime !== 0 &amp;&amp; this.iSound.paused === false) {
 			var newSound = new Audio(this.iFile);
 			newSound.volume = this.volume;
 			newSound.loop = false;
@@ -1961,7 +1792,7 @@ Lemonade.Data.retrieve = function(assetName, extension) {
 
 Lemonade.Data.retrieveWithExtension = function(object, extension) {
 	var extensionArray = [];
-	for (var i = 0; i < extension.length; i++) {
+	for (var i = 0; i &lt; extension.length; i++) {
 		if (extension[i] == '.') {
 			extensionArray.push(extension.substr(0, i));
 			extension = extension.substr(i + 1, extension.length - 1);
@@ -1980,7 +1811,7 @@ Lemonade.Data.recursiveExtension = function(object, extensionArray) {
 
 Lemonade.Data.setWithExtension = function(object, extension, toSet) {
 	var extensionArray = [];
-	for (var i = 0; i < extension.length; i++) {
+	for (var i = 0; i &lt; extension.length; i++) {
 		if (extension[i] == '.') {
 			extensionArray.push(extension.substr(0, i));
 			extension = extension.substr(i + 1, extension.length - 1);
@@ -2031,7 +1862,7 @@ Lemonade.Repository = {
 		update = update || false;
 		if (typeof assetKey == "object") {
 			var index = this.getAssetIndex(assetKey.aKey);
-			if (index !== undefined && assetInfo === true) {
+			if (index !== undefined &amp;&amp; assetInfo === true) {
 				this.assets[index] = assetKey;
 				Lemonade.loadAsset(assetKey);
 			}
@@ -2046,7 +1877,7 @@ Lemonade.Repository = {
 		}
 		try {
 			var index = this.getAssetIndex(assetKey);
-			if (index !== undefined && update === true) {
+			if (index !== undefined &amp;&amp; update === true) {
 				this.assets[index].data = assetInfo;
 				Lemonade.loadAsset(assetKey);
 			}
@@ -2056,12 +1887,12 @@ Lemonade.Repository = {
 			}
 		}
 		catch (e) {
-			Lemonade.Error.trigger("Could not add asset: " + imageFile + " <br> Reason: " + err.message, ERROR_ASSETLOAD);
+			Lemonade.Error.trigger("Could not add asset: " + imageFile + " &lt;br> Reason: " + err.message, ERROR_ASSETLOAD);
 		}
 	},
 	getAsset: function(assetKey) {
 		var l = this.assets.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.assets[i].aKey == assetKey) {
 				return this.assets[i];
 			}
@@ -2071,7 +1902,7 @@ Lemonade.Repository = {
 	},
 	getAssetIndex: function(assetKey) {
 		var l = this.assets.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.assets[i].aKey == assetKey) {
 				return i;
 			}
@@ -2095,13 +1926,13 @@ Lemonade.Repository = {
 			return Lemonade.Repository.getImage(imageKey);
 		}
 		catch (err) {
-			Lemonade.Error.trigger("Could not add image: " + imageFile + " <br> Reason: " + err.message, ERROR_IMAGELOAD);
+			Lemonade.Error.trigger("Could not add image: " + imageFile + " &lt;br> Reason: " + err.message, ERROR_IMAGELOAD);
 		}
 		return undefined;
 	},
 	getImage: function(imageKey) {
 		var l = this.images.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.images[i].iKey == imageKey || this.images[i].iFile == imageKey) {
 				Lemonade.Debug.log("Image found: " + this.images[i].iKey + ", " + this.images[i].iFile, DEBUG_NOTICE);
 				return this.images[i];
@@ -2112,7 +1943,7 @@ Lemonade.Repository = {
 	},
 	removeImage: function(imageKey) {
 		var l = this.images.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.images[i].iKey == imageKey || this.images[i].iFile == imageKey) {
 				Lemonade.Debug.log("Image found: " + this.images[i].iKey + ", " + this.images[i].iFile, DEBUG_NOTICE);
 				this.images.splice(i, 1);
@@ -2134,13 +1965,13 @@ Lemonade.Repository = {
 			return Lemonade.Repository.getSound(soundKey);
 		}
 		catch (err) {
-			Lemonade.Error.trigger("Could not add sound: " + soundFile + " <br> Reason: " + err.message, ERROR_SOUNDLOAD);
+			Lemonade.Error.trigger("Could not add sound: " + soundFile + " &lt;br> Reason: " + err.message, ERROR_SOUNDLOAD);
 		}
 		return undefined;
 	},
 	getSound: function(soundKey) {
 		var l = this.sounds.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.sounds[i].iKey == soundKey || this.sounds[i].iFile == soundKey) {
 				Lemonade.Debug.log("Sound found: " + this.sounds[i].iKey + ", " + this.sounds[i].iFile, DEBUG_NOTICE);
 				return this.sounds[i];
@@ -2151,7 +1982,7 @@ Lemonade.Repository = {
 	},
 	removeSound: function(imageKey) {
 		var l = this.images.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.images[i].iKey == imageKey || this.images[i].iFile == imageKey) {
 				Lemonade.Debug.log("Image found: " + this.images[i].iKey + ", " + this.images[i].iFile, DEBUG_NOTICE);
 				this.images.splice(i, 1);
@@ -2178,8 +2009,8 @@ Lemonade.random = function(min, max) {
 
 Lemonade.BubbleSort = function(array) {
 	var ret = array;
-	for (var i = 0; i < array.length; i++) {
-		for (var j = 0; j < array.length; j++) {
+	for (var i = 0; i &lt; array.length; i++) {
+		for (var j = 0; j &lt; array.length; j++) {
 			if (ret[i] > ret[j]) {
 				var ij = ret[i];
 				var ji = ret[j];
@@ -2213,9 +2044,9 @@ Lemonade.CollisionDetection = function(x1, y1, w1, h1, x2, y2, w2, h2) {
 	b.y = y2;
 	b.w = w2;
 	b.h = h2;
-	if (a.x < b.x + b.w &&
-		a.x + a.w > b.x &&
-		a.y < b.y + b.h &&
+	if (a.x &lt; b.x + b.w &amp;&amp;
+		a.x + a.w > b.x &amp;&amp;
+		a.y &lt; b.y + b.h &amp;&amp;
 		a.y + a.h > b.y) {
 		return true;
 	}
@@ -2243,12 +2074,12 @@ Lemonade.Event.eventExists = function(eventName, obj, eventneed, objneed) {
 
 	var whd = false;
 	var l = Lemonade.Event.events.length;
-	for (var i = 0; i < l; i++) {
+	for (var i = 0; i &lt; l; i++) {
 		if (Lemonade.Event.events[i].event === eventName || Lemonade.Event.events[i].object === obj) {
 			whd = true;
-			if (Lemonade.Event.events[i].event != eventName && eventneed === true)
+			if (Lemonade.Event.events[i].event != eventName &amp;&amp; eventneed === true)
 				whd = false;
-			if (Lemonade.Event.events[i].object != obj && objneed === true)
+			if (Lemonade.Event.events[i].object != obj &amp;&amp; objneed === true)
 				whd = false;
 			if (whd == true)
 				return whd;
@@ -2263,12 +2094,12 @@ Lemonade.Event.getEvent = function(eventName, obj, eventneed, objneed) {
 	var whd = false;
 	var evts = [];
 	var l = Lemonade.Event.events.length;
-	for (var i = 0; i < l; i++) {
+	for (var i = 0; i &lt; l; i++) {
 		if (Lemonade.Event.events[i].event === eventName || Lemonade.Event.events[i].object === obj) {
 			whd = true;
-			if (Lemonade.Event.events[i].event != eventName && eventneed === true)
+			if (Lemonade.Event.events[i].event != eventName &amp;&amp; eventneed === true)
 				whd = false;
-			if (Lemonade.Event.events[i].object != obj && objneed === true)
+			if (Lemonade.Event.events[i].object != obj &amp;&amp; objneed === true)
 				whd = false;
 			if (whd == true)
 				evts.push(Lemonade.Event.events[i]);
@@ -2285,12 +2116,12 @@ Lemonade.Event.getEvents = function(eventName, obj, eventneed, objneed) {
 	var whd = false;
 	var events = [];
 	var l = Lemonade.Event.events.length;
-	for (var i = 0; i < l; i++) {
+	for (var i = 0; i &lt; l; i++) {
 		if (Lemonade.Event.events[i].event === eventName || Lemonade.Event.events[i].object === obj) {
 			whd = true;
-			if (Lemonade.Event.events[i].event != eventName && eventneed === true)
+			if (Lemonade.Event.events[i].event != eventName &amp;&amp; eventneed === true)
 				whd = false;
-			if (Lemonade.Event.events[i].object != obj && objneed === true)
+			if (Lemonade.Event.events[i].object != obj &amp;&amp; objneed === true)
 				whd = false;
 			if (whd == true)
 				events.push(Lemonade.Event.events[i]);
@@ -2349,7 +2180,7 @@ Lemonade.tweenList = {
 	removeTween: function(key, callFinish) {
 		callFinish = callFinish || false;
 		var l = this.tweens.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.tweens[i].key == key) {
 				if (callFinish === true)
 					this.tweens[i].complete();
@@ -2360,7 +2191,7 @@ Lemonade.tweenList = {
 	},
 	tweenExists: function(key) {
 		var l = this.tweens.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.tweens[i].key == key)
 				return true;
 		}
@@ -2368,7 +2199,7 @@ Lemonade.tweenList = {
 	},
 	getTween: function(key) {
 		var l = this.tweens.length;
-		for (var i = 0; i < l; i++) {
+		for (var i = 0; i &lt; l; i++) {
 			if (this.tweens[i].key == key)
 				return this.tweens[i];
 		}
@@ -2450,13 +2281,13 @@ Lemonade.Keyboard = function() {
 		this.resetKeys();
 	};
 	this.resetKeys = function() {
-		for (var i = 0; i < 100; i++) {
+		for (var i = 0; i &lt; 100; i++) {
 			this.key[i] = false;
 		}
 		this.typed = "";
 	};
 	this.updateKeys = function() {
-		for (var i = 0; i < 100; i++) {
+		for (var i = 0; i &lt; 100; i++) {
 			if (this.key[i] === true) {
 				Lemonade.Event.triggerEvent(EVENT_KEYDOWN + i, "");
 			}
@@ -2471,7 +2302,7 @@ Lemonade.Keyboard = function() {
 			this.key[keyCode] = true;
 
 			Lemonade.Event.triggerEvent(EVENT_KEYDOWN + keyCode, "");
-			if ((keyCode >= 48 && keyCode <= 90) || keyCode == Lemonade.Keyboard.keyCode.space)
+			if ((keyCode >= 48 &amp;&amp; keyCode &lt;= 90) || keyCode == Lemonade.Keyboard.keyCode.space)
 				this.typed += String.fromCharCode(keyCode);
 			else if (keyCode == Lemonade.Keyboard.keyCode.enter)
 				this.typed += "|";
@@ -2504,7 +2335,7 @@ Lemonade.Touch = function() {
 		var touchobj = e.changedTouches;
 		var sx = window.scrollX;
 		var sy = window.scrollY;
-		for (var i = 0; i < touchobj.length; i++)
+		for (var i = 0; i &lt; touchobj.length; i++)
 			this.touchPos.push({
 				id: touchobj[i].identifier,
 				x: (touchobj[i].clientX - Lemonade.Canvas.canvasObject.offsetLeft) / Lemonade.Canvas.xRatio + sx,
@@ -2520,8 +2351,8 @@ Lemonade.Touch = function() {
 		var touchobj = e.changedTouches;
 		var sx = window.scrollX;
 		var sy = window.scrollY;
-		for (var i = 0; i < touchobj.length; i++) {
-			for (var j = 0; j < this.touchPos.length; j++) {
+		for (var i = 0; i &lt; touchobj.length; i++) {
+			for (var j = 0; j &lt; this.touchPos.length; j++) {
 				if (this.touchPos[j].id != touchobj[i].identifier)
 					continue;
 				this.touchPos[j] = ({
@@ -2746,7 +2577,7 @@ Lemonade.getEntityPosition = function(entity, excludeScale, excludeCamera) {
 		position.w = entity.get('position', 'width');
 		position.h = entity.get('position', 'height');
 
-		if (!excludeScale && entity.hasComponent(Lemonade.Components.scale)) {
+		if (!excludeScale &amp;&amp; entity.hasComponent(Lemonade.Components.scale)) {
 			if (entity.get("scale", "relativeVar") == COMPONENT_SCALE_CAMERA_BASE) {
 				position.w = (position.w * Lemonade.Camera.getScaleX());
 				position.h = (position.h * Lemonade.Camera.getScaleY());
@@ -2799,7 +2630,7 @@ Lemonade.getEntityPosition = function(entity, excludeScale, excludeCamera) {
 		}
 
 		// Move with the camera if it is affected.
-		if (!((excludeCamera === undefined && excludeScale === true) || excludeCamera === true) && entity.hasComponent(Lemonade.Components.camera) && entity.get("camera", "isAffected") === true) {
+		if (!((excludeCamera === undefined &amp;&amp; excludeScale === true) || excludeCamera === true) &amp;&amp; entity.hasComponent(Lemonade.Components.camera) &amp;&amp; entity.get("camera", "isAffected") === true) {
 			position.x += Lemonade.Camera.getX();
 			position.y += Lemonade.Camera.getY();
 			position.z += Lemonade.Camera.getZ();
@@ -2877,12 +2708,12 @@ Lemonade.Collision.getCollisionObject = function(entity) {
 		pos.width = entity.get('position', 'width');
 		pos.height = entity.get('position', 'height');
 	}
-	if (entity.hasComponent(Lemonade.Components.image) && (pos.width == 0 || pos.height == 0)) {
+	if (entity.hasComponent(Lemonade.Components.image) &amp;&amp; (pos.width == 0 || pos.height == 0)) {
 		pos.width = entity.get('image', 'image').width;
 		pos.height = entity.get('image', 'image').height;
 	}
 
-	if (entity.hasComponent(Lemonade.Components.camera) && entity.get("camera", "isAffected") === true) {
+	if (entity.hasComponent(Lemonade.Components.camera) &amp;&amp; entity.get("camera", "isAffected") === true) {
 		pos.x += Lemonade.Camera.getX();
 		pos.y += Lemonade.Camera.getY();
 	}
@@ -2939,7 +2770,7 @@ Lemonade.removeEntity = function(id) {
 };
 
 Lemonade.getEntityIndex = function(id) {
-	for (var i = 0; i < Lemonade.EntityHandler.entities.length; i++) {
+	for (var i = 0; i &lt; Lemonade.EntityHandler.entities.length; i++) {
 		if (Lemonade.EntityHandler.entities[i] === undefined || Lemonade.EntityHandler.entities[i] === null)
 			continue;
 		if (Lemonade.EntityHandler.entities[i].id === id) {
@@ -3111,7 +2942,7 @@ Lemonade.loadComponents = function() {
 			onClick: function() {}
 		},
 		function(e) {
-			if (Lemonade.Event.eventExists(EVENT_COLLIDE + 'mouse', e.id, true, true) === true && Lemonade.mouse.leftPressed === true) {
+			if (Lemonade.Event.eventExists(EVENT_COLLIDE + 'mouse', e.id, true, true) === true &amp;&amp; Lemonade.mouse.leftPressed === true) {
 				Lemonade.mouse.leftPressed = false;
 
 				e.get("button", "onClick")(e);
@@ -3147,7 +2978,7 @@ Lemonade.loadComponents = function() {
 						if (Lemonade.CompVar.MAGNIFY_ACTIVE === e.id || Lemonade.CompVar.MAGNIFY_ACTIVE === undefined) {
 							active = true;
 
-							if (Lemonade.CompVar.MAGNIFY_ACTIVE === undefined && GameTimer.paused === false) {
+							if (Lemonade.CompVar.MAGNIFY_ACTIVE === undefined &amp;&amp; GameTimer.paused === false) {
 								Lemonade.bringEntityToFront(e.id);
 							}
 
@@ -3157,13 +2988,13 @@ Lemonade.loadComponents = function() {
 				}
 			}
 
-			if (active === false && Lemonade.CompVar.MAGNIFY_ACTIVE === e.id)
+			if (active === false &amp;&amp; Lemonade.CompVar.MAGNIFY_ACTIVE === e.id)
 				Lemonade.CompVar.MAGNIFY_ACTIVE = undefined;
 
 			if (active === true) {
 				var pos = Lemonade.getEntityPosition(e);
 
-				if (e.get("magnify", "progress") <= 0) {
+				if (e.get("magnify", "progress") &lt;= 0) {
 					e.set("magnify", "progress", 0);
 
 					e.set("magnify", "sx", pos.x);
@@ -3192,7 +3023,7 @@ Lemonade.loadComponents = function() {
 				if (e.get("magnify", "progress") > 100)
 					e.set("magnify", "progress", 100);
 			}
-			else if (e.get("magnify", "progress") > 0 && e.get("magnify", "sx") !== undefined) {
+			else if (e.get("magnify", "progress") > 0 &amp;&amp; e.get("magnify", "sx") !== undefined) {
 				e.set("magnify", "progress", e.get("magnify", "progress") - e.get("magnify", "speed"));
 
 				e.set("position", "x", e.get("magnify", "sx") + (e.get("magnify", "nx") * (e.get("magnify", "progress") / 100.0)));
@@ -3347,7 +3178,7 @@ Lemonade.loadComponents = function() {
 				entity.set("tooltip", "x", x - 32);
 				entity.set("tooltip", "y", y - 16);
 				if (entity.get("tooltip", "bringToFront") === true) {
-					if (entity.get("tooltip", "oldIndex") < 0)
+					if (entity.get("tooltip", "oldIndex") &lt; 0)
 						entity.set("tooltip", "oldIndex", Lemonade.getEntityIndex(entity.id));
 					Lemonade.bringEntityToFront(entity.id);
 				}
@@ -3367,7 +3198,7 @@ Lemonade.loadComponents = function() {
 		var information = entity.get("tooltip", "information");
 		// Splice lines from the information
 		var longest = 0;
-		for (var i = 0; i < information.length; i++) {
+		for (var i = 0; i &lt; information.length; i++) {
 			if (information[i] == '|') {
 				if (entity.get("tooltip", "x") + (0.6 * entity.get("tooltip", "fontSize") * i) > 1080) {
 					entity.set("tooltip", "x", 1080 - 0.6 * entity.get("tooltip", "fontSize") * i - 1)
@@ -3410,7 +3241,7 @@ Lemonade.loadComponents = function() {
 		Lemonade.Canvas.context.textBaseline = 'top';
 		Lemonade.Canvas.context.font = entity.get("tooltip", "fontSize") + "px " + entity.get("tooltip", "fontStyle");
 		Lemonade.Canvas.context.fillStyle = "#000000";
-		for (var i = 0; i < info.length; i++) {
+		for (var i = 0; i &lt; info.length; i++) {
 			var t = info[i];
 			Lemonade.Canvas.context.fillText(t, entity.get("tooltip", "x"), entity.get("tooltip", "y") + i * entity.get("tooltip", "fontSize"));
 		}
@@ -3490,7 +3321,7 @@ Lemonade.Factory.TextInput = function TextInput(inputBoxColor, maxText, mask, de
 			e.set("label", "text", d.textValue);
 		else if (e.get("label", "text").length !== d.textValue.length) {
 			var t = "";
-			for (var i = 0; i < d.textValue.length; i++) {
+			for (var i = 0; i &lt; d.textValue.length; i++) {
 				t += "O";
 			}
 			e.set("label", "text", t);
@@ -3663,7 +3494,7 @@ Lemonade.render3D = function(entity) {
 	gl.bindBuffer(gl.ARRAY_BUFFER, Lemonade.Graphics.threed.buffer.getVertexBuffer(vertexArray));
 	gl.vertexAttribPointer(Lemonade.Graphics.threed.shader._position, 2, gl.FLOAT, false, 4 * (2), 0);
 
-	if (Lemonade.Graphics.threed.shader._uv !== undefined && entity.hasComponent(Lemonade.Components.image) && entity.get("image", "image") !== undefined) {
+	if (Lemonade.Graphics.threed.shader._uv !== undefined &amp;&amp; entity.hasComponent(Lemonade.Components.image) &amp;&amp; entity.get("image", "image") !== undefined) {
 		if (entity.get("image", "image").getWebGLTexture() !== false) {
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, entity.get("image", "image").getWebGLTexture());
@@ -3712,11 +3543,11 @@ Lemonade.render = function(entity) {
 		else
 			Lemonade.Canvas.context.fillStyle = "#000000";
 	}
-	if (Lemonade.showCollisionRects === true && entity.hasComponent(Lemonade.Components.collide)) {
+	if (Lemonade.showCollisionRects === true &amp;&amp; entity.hasComponent(Lemonade.Components.collide)) {
 		Lemonade.Canvas.context.fillStyle = "#ff0ff0";
 		Lemonade.Canvas.context.fillRect(position.x - 1, position.y - 1, position.w + 2, position.h + 2);
 	}
-	if (entity.hasComponent(Lemonade.Components.image) && entity.get("image", "image") !== undefined) {
+	if (entity.hasComponent(Lemonade.Components.image) &amp;&amp; entity.get("image", "image") !== undefined) {
 		Lemonade.Canvas.context.translate(position.x + entity.get("image", "image").originX, position.y + entity.get("image", "image").originY);
 		Lemonade.Canvas.context.rotate(entity.get('image', 'rotation'));
 		var scx = 1;
@@ -3728,7 +3559,7 @@ Lemonade.render = function(entity) {
 		Lemonade.Canvas.context.scale(scx, scy);
 		entity.get('image', 'image').draw(-entity.get("image", "image").originX, -entity.get("image", "image").originY, position.w * entity.get('image', 'scale') * entity.get('image', 'scaleX'), position.h * entity.get('image', 'scale') * entity.get('image', 'scaleY'), entity.get('image', 'sprite')); //position.x,position.y,position.w,position.h);
 	}
-	if (entity.hasComponent(Lemonade.Components.image) && entity.get("image", "imagedata") !== undefined) {
+	if (entity.hasComponent(Lemonade.Components.image) &amp;&amp; entity.get("image", "imagedata") !== undefined) {
 		Lemonade.Canvas.context.translate(position.x + position.w / 2, position.y + position.h / 2);
 		Lemonade.Canvas.context.rotate(entity.get('image', 'rotation'));
 		var scx = 1;
@@ -3757,12 +3588,12 @@ Lemonade.render = function(entity) {
 
 		Lemonade.Canvas.context.font = entity.get('label', 'style');
 
-		if (entity.get('label', 'wrap') === true && position.w > 0) {
+		if (entity.get('label', 'wrap') === true &amp;&amp; position.w > 0) {
 			var info = [];
 			var information = entity.get("label", "text");
 			// Splice lines from the information
 			var longest = 0;
-			for (var i = 0; i < information.length; i++) {
+			for (var i = 0; i &lt; information.length; i++) {
 				if (information[i] == '|') {
 					info.push(information.substr(0, i));
 					information = information.slice(i + 1);
@@ -3784,7 +3615,7 @@ Lemonade.render = function(entity) {
 			/*
 			      var info = entity.get('label', 'text');
 			      var lines = 0;
-			      for(var i=1;i<info.length;i++)
+			      for(var i=1;i&lt;info.length;i++)
 			      {
 			        if(i * entity.get('label', 'fontWidth') > position.w || info.substr(i, i+1) == '|')
 			        {
@@ -3800,14 +3631,14 @@ Lemonade.render = function(entity) {
 			          i = 0;
 			        }
 			      }*/
-			for (var jj = 0; jj < info.length; jj++)
+			for (var jj = 0; jj &lt; info.length; jj++)
 				Lemonade.Canvas.context.fillText(info[jj], position.x, position.y + jj * entity.get('label', 'fontHeight'));
 		}
 		else
 			Lemonade.Canvas.context.fillText(entity.get('label', 'text'), position.x, position.y);
 	}
 	Lemonade.Canvas.context.restore();
-	for (var i = 0; i < Lemonade.touch.touchPos.length; i++) {
+	for (var i = 0; i &lt; Lemonade.touch.touchPos.length; i++) {
 		Lemonade.Canvas.context.fillRect(Lemonade.touch.touchPos[i].x, Lemonade.touch.touchPos[i].y, 32, 32);
 	}
 };
@@ -3822,13 +3653,13 @@ Lemonade.checkCollision = function(entity) {
 	items = Lemonade.Collision.QuadTree.retrieve(c);
 	len = items.length;
 	c.isColliding = false;
-	for (var j = 0; j < len; j++) {
+	for (var j = 0; j &lt; len; j++) {
 		var item;
 		item = items[j];
 		if (c.id == item.id)
 			continue;
 
-		//if(c.isColliding === true && item.isColliding === true)
+		//if(c.isColliding === true &amp;&amp; item.isColliding === true)
 		//continue;
 
 		/*if(!c.isColliding){
@@ -3852,16 +3683,16 @@ Lemonade.logicLoop = function(dt) {
 		var la = 0;
 		var li = 0;
 		var ls = 0;
-		for (var i = 0; i < Lemonade.loadingScreen.imagesNeeded.length; i++) {
-			if (Lemonade.Repository.getImage(Lemonade.loadingScreen.imagesNeeded[i]) !== undefined &&
+		for (var i = 0; i &lt; Lemonade.loadingScreen.imagesNeeded.length; i++) {
+			if (Lemonade.Repository.getImage(Lemonade.loadingScreen.imagesNeeded[i]) !== undefined &amp;&amp;
 				Lemonade.arrayContains(Lemonade.loadedImages, Lemonade.loadingScreen.imagesNeeded[i])) {
 				li++;
 			}
 			else
 				break; // Want all the images to be loaded.
 		}
-		for (var i = 0; i < Lemonade.loadingScreen.soundsNeeded.length; i++) {
-			if (Lemonade.Repository.getSound(Lemonade.loadingScreen.soundsNeeded[i]) !== undefined &&
+		for (var i = 0; i &lt; Lemonade.loadingScreen.soundsNeeded.length; i++) {
+			if (Lemonade.Repository.getSound(Lemonade.loadingScreen.soundsNeeded[i]) !== undefined &amp;&amp;
 				Lemonade.arrayContains(Lemonade.loadedSounds, Lemonade.loadingScreen.soundsNeeded[i])) {
 				ls++;
 
@@ -3869,8 +3700,8 @@ Lemonade.logicLoop = function(dt) {
 			else
 				break; // Want all the images to be loaded.
 		}
-		for (var i = 0; i < Lemonade.loadingScreen.assetsNeeded.length; i++) {
-			if (Lemonade.Repository.getAsset(Lemonade.loadingScreen.assetsNeeded[i]) !== undefined &&
+		for (var i = 0; i &lt; Lemonade.loadingScreen.assetsNeeded.length; i++) {
+			if (Lemonade.Repository.getAsset(Lemonade.loadingScreen.assetsNeeded[i]) !== undefined &amp;&amp;
 				Lemonade.arrayContains(Lemonade.loadedAssets, Lemonade.loadingScreen.assetsNeeded[i])) {
 				la++;
 			}
@@ -3879,9 +3710,9 @@ Lemonade.logicLoop = function(dt) {
 		}
 
 		Lemonade.loadingScreen.update();
-		if (Lemonade.loadingScreen.assetsNeeded.length <= la &&
-			Lemonade.loadingScreen.imagesNeeded.length <= li &&
-			Lemonade.loadingScreen.soundsNeeded.length <= ls) {
+		if (Lemonade.loadingScreen.assetsNeeded.length &lt;= la &amp;&amp;
+			Lemonade.loadingScreen.imagesNeeded.length &lt;= li &amp;&amp;
+			Lemonade.loadingScreen.soundsNeeded.length &lt;= ls) {
 			Lemonade.loadingScreen = undefined;
 			Lemonade.loadedAssets = [];
 			Lemonade.loadedImages = [];
@@ -3905,7 +3736,7 @@ Lemonade.logicLoop = function(dt) {
 		height: Lemonade.mouse.height
 	});
 	if (Lemonade.countTouchAsMouse == true) {
-		for (var i = 0; i < Lemonade.touch.touchPos.length; i++)
+		for (var i = 0; i &lt; Lemonade.touch.touchPos.length; i++)
 			Lemonade.Collision.QuadTree.insert({
 				isColliding: false,
 				id: 'mouse',
@@ -3916,7 +3747,7 @@ Lemonade.logicLoop = function(dt) {
 			});
 	}
 	else {
-		for (var i = 0; i < Lemonade.touch.touchPos.length; i++)
+		for (var i = 0; i &lt; Lemonade.touch.touchPos.length; i++)
 			Lemonade.Collision.QuadTree.insert({
 				isColliding: false,
 				id: 'touch' + Lemonade.touch.touchPos[i].id,
@@ -3927,13 +3758,13 @@ Lemonade.logicLoop = function(dt) {
 			});
 	}
 	// Start with adding, if necessary to the quadtree collision detection.
-	for (var j = 0; j < Lemonade.EntityHandler.entities.length; j++) {
+	for (var j = 0; j &lt; Lemonade.EntityHandler.entities.length; j++) {
 		if (Lemonade.EntityHandler.entities[j] === undefined || Lemonade.EntityHandler.entities[j] === null)
 			continue;
 		if (Lemonade.EntityHandler.entities[j].hasComponent(Lemonade.Components.collide))
 			Lemonade.Collision.QuadTree.insert(Lemonade.Collision.getCollisionObject(Lemonade.EntityHandler.entities[j]));
 	}
-	for (var j = 0; j < Lemonade.EntityHandler.entities.length; j++) {
+	for (var j = 0; j &lt; Lemonade.EntityHandler.entities.length; j++) {
 		if (Lemonade.EntityHandler.entities[j] === undefined || Lemonade.EntityHandler.entities[j] === null)
 			continue;
 		// Here we check to see if the entity should be killed. If so, kill it and move on.
@@ -3943,8 +3774,8 @@ Lemonade.logicLoop = function(dt) {
 		}
 		else {
 			for (var cName in Lemonade.EntityHandler.entities[j].components) {
-				if (Lemonade.isComponentDisabled(cName) === false && Lemonade.Systems.logicSystems[cName] !== undefined) {
-					for (var i = 0; i < Lemonade.Systems.logicSystems[cName].length; i++)
+				if (Lemonade.isComponentDisabled(cName) === false &amp;&amp; Lemonade.Systems.logicSystems[cName] !== undefined) {
+					for (var i = 0; i &lt; Lemonade.Systems.logicSystems[cName].length; i++)
 						Lemonade.Systems.logicSystems[cName][i].componentProcess(Lemonade.EntityHandler.entities[j]);
 				}
 			}
@@ -3973,7 +3804,7 @@ Lemonade.renderLoop = function(dt) {
 		return;
 	}
 
-	/*for (var j = 0; j < Lemonade.EntityHandler.entities.length; j++) {
+	/*for (var j = 0; j &lt; Lemonade.EntityHandler.entities.length; j++) {
 	    if (Lemonade.EntityHandler.entities[j].hasComponent(Lemonade.Components.keeporder)) {
 	        var index = Lemonade.EntityHandler.entities[j].get("keeporder", "order");
 	        if (index >= 0)
@@ -3983,26 +3814,26 @@ Lemonade.renderLoop = function(dt) {
 	        continue;
 	    }
 	}*/
-	for (var j = 0; j < Lemonade.EntityHandler.entities.length; j++) {
+	for (var j = 0; j &lt; Lemonade.EntityHandler.entities.length; j++) {
 		if (Lemonade.EntityHandler.entities[j] == undefined || Lemonade.EntityHandler.entities[j] == null)
 			continue;
 		for (var cName in Lemonade.EntityHandler.entities[j].components) {
-			if (Lemonade.isComponentDisabled(cName) === false && Lemonade.Systems.renderSystems[cName] !== undefined)
-				for (var i = 0; i < Lemonade.Systems.renderSystems[cName].length; i++)
+			if (Lemonade.isComponentDisabled(cName) === false &amp;&amp; Lemonade.Systems.renderSystems[cName] !== undefined)
+				for (var i = 0; i &lt; Lemonade.Systems.renderSystems[cName].length; i++)
 					Lemonade.Systems.renderSystems[cName][i].componentProcess(Lemonade.EntityHandler.entities[j]);
 		}
 	}
 	loopRender();
 };
 Lemonade.tweenLoop = function(dt) {
-	for (var i = 0; i < Lemonade.tweenList.tweens.length; i++) {
+	for (var i = 0; i &lt; Lemonade.tweenList.tweens.length; i++) {
 		var tween = Lemonade.tweenList.tweens[i];
 		if (tween.timer === true)
-			if (tween.startTime <= -1) {
+			if (tween.startTime &lt;= -1) {
 				tween.startTime = Lemonade.Timer.getCurrentTime();
 			}
 		tween.doAction();
-		if ((tween.timer === false && tween.curTicks >= tween.ticks) || (tween.timer === true && tween.ticks / Lemonade.Timer.timeInc <= Lemonade.Timer.getCurrentTime() - tween.startTime)) {
+		if ((tween.timer === false &amp;&amp; tween.curTicks >= tween.ticks) || (tween.timer === true &amp;&amp; tween.ticks / Lemonade.Timer.timeInc &lt;= Lemonade.Timer.getCurrentTime() - tween.startTime)) {
 			Lemonade.tweenList.removeTween(tween.key, true);
 			i--;
 		}
@@ -4022,7 +3853,7 @@ Lemonade.run = function() {
     if (Lemonade.running === false)
       return;
     window.requestAnimationFrame(function() {
-      if (Lemonade.autoClear === true && Lemonade.running === true)
+      if (Lemonade.autoClear === true &amp;&amp; Lemonade.running === true)
         Lemonade.Canvas.context.clearRect(0, 0, Lemonade.Canvas.canvasWidth, Lemonade.Canvas.canvasHeight);
       Lemonade.renderLoop();
     });
@@ -4045,7 +3876,7 @@ Lemonade.aa = function() {
 	if (Lemonade.running === false)
 		return;
 	window.requestAnimationFrame(function() {
-		if (Lemonade.autoClear === true && Lemonade.running === true && Lemonade.Graphics.threed.enabled === false)
+		if (Lemonade.autoClear === true &amp;&amp; Lemonade.running === true &amp;&amp; Lemonade.Graphics.threed.enabled === false)
 			Lemonade.Canvas.context.clearRect(0, 0, Lemonade.Canvas.canvasWidth, Lemonade.Canvas.canvasHeight);
 		Lemonade.renderLoop();
 	});
@@ -4071,8 +3902,31 @@ Lemonade.dd = function() {
 };
 Lemonade.run = function() {
 	Lemonade.Debug.log("Lemonade Engine V" + Lemonade.version, DEBUG_NOTICE);
-	setTimeout(Lemonade.dd, Lemonade.Timer.timeInc); // Timer func
-	setTimeout(Lemonade.bb, 1); // Logic Loop
-	setTimeout(Lemonade.cc, 1); // Tween / Logic Loop
-	setTimeout(Lemonade.aa, 1); // Render loop.
+	setTimeout(Lemonade.aa, 1);
+	setTimeout(Lemonade.bb, 1);
+	setTimeout(Lemonade.cc, 1);
+	setTimeout(Lemonade.dd, Lemonade.Timer.timeInc);
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="global.html#Lemonade">Lemonade</a></li><li><a href="Lemonade.Collision.html">Collision</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ANIMATION_TYPE_A">ANIMATION_TYPE_A</a></li><li><a href="global.html#ANIMATION_TYPE_B">ANIMATION_TYPE_B</a></li><li><a href="global.html#ANIMATION_TYPE_BC">ANIMATION_TYPE_BC</a></li><li><a href="global.html#ANIMATION_TYPE_C">ANIMATION_TYPE_C</a></li><li><a href="global.html#ANIMATION_TYPE_D">ANIMATION_TYPE_D</a></li><li><a href="global.html#ASSET_DEFAULT">ASSET_DEFAULT</a></li><li><a href="global.html#ASSET_FILE">ASSET_FILE</a></li><li><a href="global.html#ASSET_GENERAL">ASSET_GENERAL</a></li><li><a href="global.html#ASSET_JSON">ASSET_JSON</a></li><li><a href="global.html#ASSET_JSON_OBJECT">ASSET_JSON_OBJECT</a></li><li><a href="global.html#ASSET_JSON_TEXT">ASSET_JSON_TEXT</a></li><li><a href="global.html#ASSET_NUMBER">ASSET_NUMBER</a></li><li><a href="global.html#ASSET_OBJECT">ASSET_OBJECT</a></li><li><a href="global.html#ASSET_STRING">ASSET_STRING</a></li><li><a href="global.html#BACKCULL_CCW">BACKCULL_CCW</a></li><li><a href="global.html#BACKCULL_CW">BACKCULL_CW</a></li><li><a href="global.html#COMPONENT_SCALE_BASE">COMPONENT_SCALE_BASE</a></li><li><a href="global.html#COMPONENT_SCALE_CAMERA">COMPONENT_SCALE_CAMERA</a></li><li><a href="global.html#COMPONENT_SCALE_CAMERA_BASE">COMPONENT_SCALE_CAMERA_BASE</a></li><li><a href="global.html#COMPONENT_SCALE_CAMERA_RELATIVE">COMPONENT_SCALE_CAMERA_RELATIVE</a></li><li><a href="global.html#COMPONENT_SCALE_DISABLE">COMPONENT_SCALE_DISABLE</a></li><li><a href="global.html#COMPONENT_SCALE_ENTITY">COMPONENT_SCALE_ENTITY</a></li><li><a href="global.html#COMPONENT_SCALE_RELATIVE">COMPONENT_SCALE_RELATIVE</a></li><li><a href="global.html#DEBUG_ALL">DEBUG_ALL</a></li><li><a href="global.html#DEBUG_ERROR">DEBUG_ERROR</a></li><li><a href="global.html#DEBUG_MIN">DEBUG_MIN</a></li><li><a href="global.html#DEBUG_NONE">DEBUG_NONE</a></li><li><a href="global.html#DEBUG_NOTICE">DEBUG_NOTICE</a></li><li><a href="global.html#DO_NOT_LOAD">DO_NOT_LOAD</a></li><li><a href="global.html#DRAWSTYLE_SOLID1">DRAWSTYLE_SOLID1</a></li><li><a href="global.html#DRAWSTYLE_SOLID2">DRAWSTYLE_SOLID2</a></li><li><a href="global.html#DRAWSTYLE_SOLID3">DRAWSTYLE_SOLID3</a></li><li><a href="global.html#DRAWSTYLE_WIREFRAME">DRAWSTYLE_WIREFRAME</a></li><li><a href="global.html#ENTITY_CAMERA">ENTITY_CAMERA</a></li><li><a href="global.html#ENTITY_TEMP0">ENTITY_TEMP0</a></li><li><a href="global.html#ENTITY_TEMP1">ENTITY_TEMP1</a></li><li><a href="global.html#ENTITY_TEMP2">ENTITY_TEMP2</a></li><li><a href="global.html#ENTITY_TEMP3">ENTITY_TEMP3</a></li><li><a href="global.html#ENTITY_TEMP4">ENTITY_TEMP4</a></li><li><a href="global.html#ENTITY_TEMPR0">ENTITY_TEMPR0</a></li><li><a href="global.html#ENTITY_TEMPR1">ENTITY_TEMPR1</a></li><li><a href="global.html#ENTITY_TEMPR2">ENTITY_TEMPR2</a></li><li><a href="global.html#ENTITY_TEMPR3">ENTITY_TEMPR3</a></li><li><a href="global.html#ENTITY_TEMPR4">ENTITY_TEMPR4</a></li><li><a href="global.html#ERROR_ASSETLOAD">ERROR_ASSETLOAD</a></li><li><a href="global.html#ERROR_CANVASERROR">ERROR_CANVASERROR</a></li><li><a href="global.html#ERROR_FILENOTFOUND">ERROR_FILENOTFOUND</a></li><li><a href="global.html#ERROR_GAMEPLAY">ERROR_GAMEPLAY</a></li><li><a href="global.html#ERROR_IMAGELOAD">ERROR_IMAGELOAD</a></li><li><a href="global.html#ERROR_OPENGL">ERROR_OPENGL</a></li><li><a href="global.html#ERROR_SOUNDLOAD">ERROR_SOUNDLOAD</a></li><li><a href="global.html#EVENT_ALWAYS">EVENT_ALWAYS</a></li><li><a href="global.html#EVENT_CLICK">EVENT_CLICK</a></li><li><a href="global.html#EVENT_COLLIDE">EVENT_COLLIDE</a></li><li><a href="global.html#EVENT_HOVER">EVENT_HOVER</a></li><li><a href="global.html#EVENT_KEY">EVENT_KEY</a></li><li><a href="global.html#EVENT_KEYDOWN">EVENT_KEYDOWN</a></li><li><a href="global.html#EVENT_KEYPRESS">EVENT_KEYPRESS</a></li><li><a href="global.html#EVENT_KEYUP">EVENT_KEYUP</a></li><li><a href="global.html#EVENT_LEFTCLICK">EVENT_LEFTCLICK</a></li><li><a href="global.html#EVENT_NOOTHER">EVENT_NOOTHER</a></li><li><a href="global.html#EVENT_RIGHTCLICK">EVENT_RIGHTCLICK</a></li><li><a href="global.html#EVENT_VALUE">EVENT_VALUE</a></li><li><a href="global.html#FLAG_HEIGHT">FLAG_HEIGHT</a></li><li><a href="global.html#FLAG_WIDTH">FLAG_WIDTH</a></li><li><a href="global.html#gl">gl</a></li><li><a href="global.html#GRAPHICS_CANVAS">GRAPHICS_CANVAS</a></li><li><a href="global.html#GRAPHICS_DOM">GRAPHICS_DOM</a></li><li><a href="global.html#GRAPHICS_WEBGL">GRAPHICS_WEBGL</a></li><li><a href="global.html#GUI_BUTTON">GUI_BUTTON</a></li><li><a href="global.html#MOUSE_LEFT">MOUSE_LEFT</a></li><li><a href="global.html#MOUSE_MIDDLE">MOUSE_MIDDLE</a></li><li><a href="global.html#MOUSE_RIGHT">MOUSE_RIGHT</a></li><li><a href="global.html#SHAPE_LINE">SHAPE_LINE</a></li><li><a href="global.html#SHAPE_TRIANGLE">SHAPE_TRIANGLE</a></li><li><a href="global.html#SYSTEM_LOGIC">SYSTEM_LOGIC</a></li><li><a href="global.html#SYSTEM_NEVER">SYSTEM_NEVER</a></li><li><a href="global.html#SYSTEM_RENDER">SYSTEM_RENDER</a></li><li><a href="global.html#ttn">ttn</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sun Jun 30 2019 14:34:21 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
