@@ -893,7 +893,7 @@ Lemonade.Mirror.updateMirror = function(id, mirrorUpdate, client) {
 	else if (client !== undefined) {
 		client.emit(MIRROR_UPDATE_MIRROR, id, Lemonade.Mirror.applyIgnoreField(mirrorUpdate));
 	}
-}
+};
 
 /**
  * @desc Sends a check mirror message to server, for validating the object.

@@ -528,7 +528,7 @@ Lemonade.load = function(ls) {
 Lemonade.funcOverload = function(func, params) {
 	// Changed to use the built in method. (Now this is just an Alias to prevent breaking old reliant code)
 	func.apply(null, params);
-}
+};
 
 /**
  * @desc FPS counter object with related variables and functions.
@@ -640,22 +640,22 @@ Lemonade.MD5 = function(string) {
 	function FF(a, b, c, d, x, s, ac) {
 		a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
 		return AddUnsigned(RotateLeft(a, s), b);
-	};
+	}
 
 	function GG(a, b, c, d, x, s, ac) {
 		a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
 		return AddUnsigned(RotateLeft(a, s), b);
-	};
+	}
 
 	function HH(a, b, c, d, x, s, ac) {
 		a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
 		return AddUnsigned(RotateLeft(a, s), b);
-	};
+	}
 
 	function II(a, b, c, d, x, s, ac) {
 		a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
 		return AddUnsigned(RotateLeft(a, s), b);
-	};
+	}
 
 	function ConvertToWordArray(string) {
 		var lWordCount;
@@ -678,7 +678,7 @@ Lemonade.MD5 = function(string) {
 		lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
 		lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
 		return lWordArray;
-	};
+	}
 
 	function WordToHex(lValue) {
 		var WordToHexValue = "",
@@ -690,7 +690,7 @@ Lemonade.MD5 = function(string) {
 			WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
 		}
 		return WordToHexValue;
-	};
+	}
 
 	function Utf8Encode(string) {
 		string = string.replace(/\r\n/g, "\n");
@@ -716,7 +716,7 @@ Lemonade.MD5 = function(string) {
 		}
 
 		return utftext;
-	};
+	}
 
 	var x = Array();
 	var k, AA, BB, CC, DD, a, b, c, d;
@@ -972,7 +972,7 @@ Lemonade.readTextFile = function(file, callback) {
  */
 Lemonade.getTextFromFile = function(file, callback) {
 	return Lemonade.readTextFile(file, callback);
-}
+};
 /**
  * @desc Get the distance between 2 points on the 2D plane.
  * @param {number} x1 - X coordinate of the first point.
@@ -2023,9 +2023,9 @@ Lemonade.isAsset = function(obj) {
 	return this.__asset !== undefined;
 };
 Lemonade.Repository = {
-	images: new Array(),
-	sounds: new Array(),
-	assets: new Array(),
+	images: [],
+	sounds: [],
+	assets: [],
 	addAsset: function(assetKey, assetInfo, update) { // if assetKey is an object (Assumed to be an asset) then assetInfo becomes the new update variable
 		// addAsset can be used to add an object or other asset like a string into the repository.
 		update = update || false;
@@ -2223,7 +2223,7 @@ Lemonade.CollisionDetection = function(x1, y1, w1, h1, x2, y2, w2, h2) {
 		return false;
 };
 Lemonade.Event = {};
-Lemonade.Event.events = new Array();
+Lemonade.Event.events = [];
 Lemonade.Event.triggerEvent = function(eventName, obj) {
 	var event = {
 		event: eventName,
@@ -2333,7 +2333,7 @@ Lemonade.tween = function(key, obj1, ticks, action, complete) {
 	};
 };
 Lemonade.tweenList = {
-	tweens: new Array(),
+	tweens: [],
 	addTween: function(key, o1, ti, ac, co) {
 		var tw = new Lemonade.tween(key, o1, ti, ac, co);
 		this.tweens.push(tw);
@@ -2445,7 +2445,7 @@ Lemonade.Messaging.submitMessage = function(message) {
 
 Lemonade.Keyboard = function() {
 	this.typed = "";
-	this.key = new Array();
+	this.key = [];
 	this.init = function() {
 		this.resetKeys();
 	};
@@ -2894,7 +2894,7 @@ Lemonade.Entity.prototype.print = function() {
 };
 
 Lemonade.EntityHandler = {
-	entities: new Array(),
+	entities: [],
 };
 Lemonade.bringEntityTo = function(id, index) {
 	var i = Lemonade.getEntityIndex(id);
@@ -2967,7 +2967,7 @@ Lemonade.isComponentDisabled = function(componentName) {
 };
 Lemonade.disableComponent = function(componentName) {
 	if (Lemonade.arrayContains(Lemonade.Components_Disabled, componentName))
-		return;
+
 	else
 		Lemonade.Components_Disabled.push(componentName);
 };
@@ -3381,7 +3381,7 @@ Lemonade.loadComponents = function() {
 		}
 		if (information.length > 0) {
 			if (entity.get("tooltip", "x") + (0.6 * entity.get("tooltip", "fontSize") * information.length) > 1080)
-				entity.set("tooltip", "x", 1080 - 0.6 * entity.get("tooltip", "fontSize") * information.length - 1)
+				entity.set("tooltip", "x", 1080 - 0.6 * entity.get("tooltip", "fontSize") * information.length - 1);
 			info.push(information.substr(0, information.length));
 			if (0.6 * entity.get("tooltip", "fontSize") * information.length > longest)
 				longest = 0.6 * entity.get("tooltip", "fontSize") * information.length;

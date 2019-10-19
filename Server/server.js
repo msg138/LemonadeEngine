@@ -14,7 +14,7 @@ io.on('connection', function (client) {
 	// Set our constant reference to the socket.
 	Lemonade.Mirror.Server.addClient(client);
 	
-})
+});
 
 // Start listening for the server.
 server.listen(2424, function (err) {
@@ -26,4 +26,4 @@ server.on('/', function(req, res, next){
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	next();
-})
+});
